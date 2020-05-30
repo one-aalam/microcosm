@@ -46,6 +46,8 @@ That's it 🚀.
 
 _You'll find the services available on their respective ports. Visit the respective ports and see `em in action._
 
+> `lerna` suppresses log output of npm scripts by defualt. To allow for that, run the above script with `--stream` flag
+
 ## Lerna Quick-Reference
 Since most of the `micros` will share some common characterstics and behavior, Lerna is levaraged to manage community and cross-micro
 depenedencies so that it's DRY and less boring DX for ya!
