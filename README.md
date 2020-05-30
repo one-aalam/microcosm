@@ -39,7 +39,7 @@ _You'll find the dependenices installed and resolved now_
 
 Go to the root of the  project and run
 ```
-lerna start
+lerna run start
 ```
 
 That's it 🚀.
