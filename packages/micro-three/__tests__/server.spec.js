@@ -12,3 +12,16 @@ describe('Server', () => {
       done()
     })
 })
+
+describe('Products API', () => {
+  describe('/GET products', () => {
+    it('returns all the available products', async done => {
+      const response = await request.get('/products');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual([]);
+
+      done()
+    })
+  })
+})

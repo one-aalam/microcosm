@@ -15,7 +15,7 @@ app.get('/test', async (req, res) => {
 })
 
 app.get(PRODUCTS_API_ENDPOINT, (req, res) => {
-  res.json({});
+  res.json([]);
 });
 
 module.exports = app;
