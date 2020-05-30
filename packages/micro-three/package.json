@@ -1,22 +1,15 @@
 {
-  "name": "@microcosm/micro-two",
+  "name": "@microcosm/micro-three",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "micro -p 3001",
-    "dev": "micro-dev",
     "test": "jest"
   },
   "keywords": [],
   "author": "Aftab Alam <hello@aalam.in> (https://aalam.in)",
   "license": "MIT",
-  "dependencies": {
-    "micro": "^9.3.4",
-    "micro-visualize": "^3.0.1"
-  },
   "devDependencies": {
-    "jest": "^26.0.1",
-    "micro-dev": "^3.0.0"
+    "jest": "^26.0.1"
   }
 }

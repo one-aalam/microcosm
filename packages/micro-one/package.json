@@ -6,7 +6,7 @@
   "scripts": {
     "start": "micro -p 3000",
     "dev": "micro-dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Aftab Alam <hello@aalam.in> (https://aalam.in)",
@@ -16,6 +16,7 @@
     "micro-visualize": "^3.0.1"
   },
   "devDependencies": {
+    "jest": "^26.0.1",
     "micro-dev": "^3.0.0"
   }
 }
