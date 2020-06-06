@@ -11,16 +11,19 @@ nconf.argv()
 
 const app = express();
 
-const productRouter = require('./products');
+const productRouter = require('./product');
+const userRouter = require('./user');
 
 const PRODUCTS_API_ENDPOINT = '/products';
+const USERS_API_ENDPOINT = '/users';
+
 const DB_API_ENDPOINT = 'mongodb://localhost:27017/microcosm';
 
 const mongoDB = process.env.MONGODB_URI || DB_API_ENDPOINT;
-// mongoose.connect(mongoDB, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// });
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
@@ -32,6 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(USERS_API_ENDPOINT, userRouter);
 app.use(PRODUCTS_API_ENDPOINT, productRouter);
 
 app.get('/', async (req, res) => {
