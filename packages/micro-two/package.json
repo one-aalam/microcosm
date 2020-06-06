@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "micro -p 3001",
-    "dev": "micro-dev",
+    "dev": "micro-dev -p 3001",
     "test": "jest"
   },
   "keywords": [],
