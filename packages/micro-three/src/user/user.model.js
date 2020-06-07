@@ -1,22 +1,60 @@
 const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
+const { model, Schema } = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
-    name: String,
+const UserSchema = new Schema({
+    name: {
+        first: {
+            type: String,
+            required: true
+        },
+        last: {
+            type: String,
+            required: true
+        }
+    },
     email: {
         type: String,
         required: true,
         unique: true
     },
     password:{
-        type:String,
+        type: String,
         required: true,
-        trim: true
+        trim: true,
     },
-    token         :{type:String},
-    created_at    :{ type: Date },
-    updated_at    :{ type: Date, default: Date.now }
+    imageUrl : {
+        type: String,
+        default: ''
+    },
+    activated: {
+        type: Boolean,
+        default: true
+    },
+    roles: {
+        type: [ String ],
+        default: [ 'ROLE_USER' ] // [ "ROLE_USER", "ROLE_ADMIN" ]
+    },
+    token:{
+        type:String
+    },
+    addresses:[
+        {
+            ref: 'Address',
+            type: Schema.Types.ObjectId
+        }
+    ],
+    createdAt    :{ type: Date },
+    updatedAt    :{ type: Date, default: Date.now }
 }, { versionKey: false }, {strict: false});
+
+UserSchema.virtual('fullName').
+  get(function() {
+    return this.name.first + ' ' + this.name.last;
+  }).
+  set(function(v) {
+    this.name.first = v.substr(0, v.indexOf(' '));
+    this.name.last = v.substr(v.indexOf(' ') + 1);
+  });
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
@@ -30,4 +68,4 @@ UserSchema.methods.verifyPassword = function (password) {
 }
 
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = model('User', UserSchema);
