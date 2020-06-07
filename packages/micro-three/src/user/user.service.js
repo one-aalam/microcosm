@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const User = require('./user.model');
 
 class UserService {
@@ -12,9 +11,8 @@ class UserService {
             ...params
         })
     }
-    create({password, token, ...rest}) {
+    create({ token, ...rest}) {
         const user = new User({
-            password: bcrypt.hashSync(password, 2),
             ...rest
         });
         // discard token, and similar fields that are meant for internal use

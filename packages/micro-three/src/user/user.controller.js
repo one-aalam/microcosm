@@ -7,13 +7,14 @@ exports.all = async (req, res) => {
 };
 
 exports.create = async (req, res, next) => {
-    return userService.create(req.body).then(() => {
-        res.send('User created successfully!')
-    }, (err) => {
+    try {
+        const ret = await userService.create(req.body);
+        res.json(ret);
+    } catch (e) {
         if(err) {
             next(err);
         }
-    })
+    }
 };
 
 exports.setupRootUser = async (req, res, next) => {
