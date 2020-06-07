@@ -1,37 +1,20 @@
-
 const { compareSync } = require('bcrypt');
-const { sign, verify } = require('jsonwebtoken');
-const User = require('../user/user.model');
-const userService = require('../user/user.service');
 const asyncRun = require('../middlewares/async-run');
+const token = require('../utils/token');
+const userService = require('../user/user.service');
 
-const secret = 'token';
+const auth = ({ email, password }) => attempt(email, password).then(({ id }) => ({ token:  token.encode({ id, email }) }));
 
-const attempt = (email, password) => {
-  return User.find({ email }).exec().then((users, err) => {
-    if (!users.length) {
-      throw new Error('AUTH_USER_NONEXISTENT');
-    }
-
-    const user = users[0];
-    if (!compareSync(password, user.password)) {
-      throw new Error('AUTH_USER_WRONGPASS');
-    }
-    return user;
-  });
-};
-
-
-const auth = ({ email, password }) =>
-  attempt(email, password).then(({ id }) => {
-    let token = sign(id, secret);
-    return { token: token };
+const attempt = async (email, password) => {
+  const user = await userService.one({ email });
+  if (!user) {
+    throw new Error('AUTH_USER_NONEXISTENT');
   }
-);
-
-const decode = token => verify(token, secret);
-
-exports.decode = (req, res) => decode(req.headers['authorization']);
+  if (!compareSync(password, user.password)) {
+    throw new Error('AUTH_USER_WRONGPASS');
+  }
+  return user;
+};
 
 exports.signup = asyncRun(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -43,4 +26,12 @@ exports.signin = asyncRun(async (req, res) => {
   const { email, password } = req.body;
   const ret = await auth({ email, password });
   res.json(ret);
+});
+
+exports.me = asyncRun(async (req, res) => {
+  const { id, email } = req._auth;
+  res.json({ user: {
+    id,
+    email
+  }});
 });
