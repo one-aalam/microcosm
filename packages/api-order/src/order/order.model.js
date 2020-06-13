@@ -13,14 +13,14 @@ const OrderSchema = new Schema({
         type: String,
         required: true
     },
-    status:{
+    status: {
         type: String,
         required: true,
     },
     products: [
         ProductSubSchema
     ],
-    addresses:[
+    addresses: [
         AddressSubSchema
     ],
     createdAt    :{ type: Date },

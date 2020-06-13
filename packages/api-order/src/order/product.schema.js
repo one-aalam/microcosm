@@ -3,14 +3,15 @@ const ProductSubSchema = {
         type: String,
         required:true
     },
-    category      :{
-        type:String
-    },
-    name          :{
+    name:{
         type:String, required: true,
         max: 100
     },
     price :{
+        type: Number,
+        required: true
+    },
+    qty :{
         type: Number,
         required: true
     },

@@ -9,6 +9,9 @@ module.exports = gql`
 
     getProducts: [Product]
     getProduct(id: ID!): Product
+
+    getOrders: [Order]
+    getOrder(id: ID!): Order
   }
 
   type Mutation {
@@ -25,6 +28,9 @@ module.exports = gql`
 
     createProduct(data: ProductCreateInput!): Product
     removeProduct(id: ID!): Boolean!
+
+    createOrder(data: OrderCreateInput!): Order
+    removeOrder(id: ID!): Boolean!
   }
 
   type AuthToken {
@@ -79,4 +85,56 @@ module.exports = gql`
     category: [ String ]
     price: Float!
   }
+
+  type Order {
+    id: ID!
+    user: OrderUser
+    totalOrderValue: Float!
+    status: String!
+    address: Address
+    paymentMethod: String
+    prodcuts: [ Product ]
+  }
+
+  type OrderUser {
+    id: ID!
+    email: String!
+  }
+
+  type Address {
+    addressType: String!
+    country: String!
+    city: String!
+    pincode: Int!
+  }
+
+  input OrderCreateInput {
+    customer: OrderUserInput!
+    totalOrderValue: Float!
+    status: String!
+    address: OrderAddressInput
+    paymentMethod: String
+    prodcuts: [ OrderProductInput ]
+  }
+
+  input OrderProductInput {
+    _id: String
+    name: String!
+    category: [ String ]
+    price: Float!
+    qty: Int!
+  }
+
+  input OrderUserInput {
+    _id: ID!
+    email: String!
+  }
+
+  input OrderAddressInput {
+    addressType: String!
+    country: String!
+    city: String!
+    pincode: Int!
+  }
+
 `;
