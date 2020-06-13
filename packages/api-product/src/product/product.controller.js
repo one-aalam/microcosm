@@ -2,10 +2,7 @@
 const productService = require('./product.service');
 const asyncRun = require('../middlewares/async-run');
 
-exports.all = asyncRun(async (req, res) => {
-    const params = {};
-    res.json(await productService.all(params));
-});
+exports.all = asyncRun(async (req, res) => res.json(await productService.all(req.query)));
 
 exports.one = asyncRun(async (req, res) => {
     res.json(await productService.one(req.params));

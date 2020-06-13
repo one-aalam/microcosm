@@ -1,8 +1,17 @@
 const Product = require('./product.model');
 
 class ProductService {
-    all(params) {
-        return Product.find(params);
+    all(query) {
+        let _query = {}
+        const { ids } = JSON.parse(query.query);
+        if (ids) {
+            _query = {
+                '_id': {
+                    $in: ids
+                }
+            }
+        }
+        return Product.find(_query);
     }
     one(params = {}) {
         const isIdParam = Object.keys(params).length === 1 &&  params.id;

@@ -111,23 +111,17 @@ module.exports = gql`
   input OrderCreateInput {
     customer: OrderUserInput!
     totalOrderValue: Float!
-    status: String!
     address: OrderAddressInput
-    paymentMethod: String
     prodcuts: [ OrderProductInput ]
   }
 
   input OrderProductInput {
     _id: String
-    name: String!
-    category: [ String ]
-    price: Float!
     qty: Int!
   }
 
   input OrderUserInput {
     _id: ID!
-    email: String!
   }
 
   input OrderAddressInput {

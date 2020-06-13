@@ -11,7 +11,7 @@ exports.one = asyncRun(async (args) => {
     return data;
 });
 exports.all = asyncRun(async (args) => {
-    const { data } = await instance.get('/products', args);
+    const { data } = await instance.get('/products', { params: args });
     return data;
 });
 
