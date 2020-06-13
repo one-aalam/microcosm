@@ -1,16 +1,27 @@
 
 const productService = require('./product.service');
+const asyncRun = require('../middlewares/async-run');
 
-exports.all = async (req, res) => {
-    res.json(productService.all());
-};
+exports.all = asyncRun(async (req, res) => {
+    const params = {};
+    res.json(await productService.all(params));
+});
 
-exports.create = async (req, res, next) => {
-    return productService.create(req.body).then(() => {
-        res.send('Product created successfully!')
-    }, (err) => {
-        if(err) {
-            next(err);
-        }
-    })
-};
+exports.one = asyncRun(async (req, res) => {
+    res.json(await productService.one(req.params));
+});
+
+exports.create = asyncRun(async (req, res, next) => {
+    const ret = await productService.create(req.body);
+    res.json(ret);
+});
+
+exports.update = asyncRun(async (req, res, next) => {
+    const ret = await productService.update(req.params.id, req.body);
+    res.json(ret);
+});
+
+exports.remove = asyncRun(async (req, res, next) => {
+    const ret = await productService.remove(req.params.id);
+    res.json(ret);
+});
