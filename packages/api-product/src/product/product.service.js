@@ -14,9 +14,6 @@ class ProductService {
                 ...params
             });
         }
-        if (populate) {
-            _Product = _Product.populate('addresses')
-        }
         return _Product;
     }
     create(params) {

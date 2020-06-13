@@ -6,19 +6,25 @@ module.exports = gql`
     getUsers: [User!]
     getUser(id: ID!): User
     getMe: User
+
+    getProducts: [Product]
+    getProduct(id: ID!): Product
   }
 
   type Mutation {
+    signUp(data: UserRegistrationInput!): User
+    signIn(data: UserLoginInput): AuthToken
+
     createUser(
         name: UserNameInput!,
         email: String!,
         password: String!,
         roles: [ UserRole ]
     ): User!
-    deleteUser(id: ID!): Boolean!
+    removeUser(id: ID!): Boolean!
 
-    signUp(data: UserRegistrationInput!): User
-    signIn(data: UserLoginInput): AuthToken
+    createProduct(data: ProductCreateInput!): Product
+    removeProduct(id: ID!): Boolean!
   }
 
   type AuthToken {
@@ -59,5 +65,18 @@ module.exports = gql`
     activated: Boolean
     roles: [ UserRole ]!
     token: String
+  }
+
+  type Product {
+    id: ID!
+    name: String!
+    category: [ String ]
+    price: Float!
+  }
+
+  input ProductCreateInput {
+    name: String!
+    category: [ String ]
+    price: Float!
   }
 `;

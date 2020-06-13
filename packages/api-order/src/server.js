@@ -9,9 +9,9 @@ const catchErr = require('./middlewares/catch-err');
 
 const app = express();
 
-const productRouter = require('./order');
+const orderRouter = require('./order');
 
-const PRODUCTS_API_ENDPOINT = '/orders';
+const ORDERS_API_ENDPOINT = '/orders';
 
 const DB_API_ENDPOINT = 'mongodb://localhost:27017/microcosm';
 
@@ -33,7 +33,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use(PRODUCTS_API_ENDPOINT, productRouter);
+app.use(ORDERS_API_ENDPOINT, orderRouter);
 app.use(catchErr);
 
 app.get('/', async (req, res) => {

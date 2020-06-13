@@ -1,27 +1,26 @@
-
-const productService = require('./product.service');
+const orderService = require('./order.service');
 const asyncRun = require('../middlewares/async-run');
 
 exports.all = asyncRun(async (req, res) => {
     const params = {};
-    res.json(await productService.all(params));
+    res.json(await orderService.all(params));
 });
 
 exports.one = asyncRun(async (req, res) => {
-    res.json(await productService.one(req.params));
+    res.json(await orderService.one(req.params));
 });
 
 exports.create = asyncRun(async (req, res, next) => {
-    const ret = await productService.create(req.body);
+    const ret = await orderService.create(req.body);
     res.json(ret);
 });
 
 exports.update = asyncRun(async (req, res, next) => {
-    const ret = await productService.update(req.params.id, req.body);
+    const ret = await orderService.update(req.params.id, req.body);
     res.json(ret);
 });
 
 exports.remove = asyncRun(async (req, res, next) => {
-    const ret = await productService.remove(req.params.id);
+    const ret = await orderService.remove(req.params.id);
     res.json(ret);
 });
