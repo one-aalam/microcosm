@@ -11,7 +11,6 @@ module.exports = asyncRun(async (req, _, next) => {
       }
       if (type === 'Bearer') {
           let payload;
-          console.log('token', token);
           try {
             payload = decode(token)
           } catch(err) {
@@ -19,5 +18,7 @@ module.exports = asyncRun(async (req, _, next) => {
           }
         req._auth = payload;
       }
-    next();
+    if (next) {
+      next();
+    }
 });

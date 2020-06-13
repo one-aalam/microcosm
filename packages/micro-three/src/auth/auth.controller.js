@@ -35,3 +35,5 @@ exports.me = asyncRun(async (req, res) => {
     email
   }});
 });
+
+exports.auth = auth;
