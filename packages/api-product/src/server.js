@@ -2,24 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const nconf = require('nconf');
 const cors = require('cors');
 
 const catchErr = require('./middlewares/catch-err');
 
-nconf.argv()
-   .env('__')
-   .defaults({ conf: `${__dirname}/config.json`})
-   .file(nconf.get('conf'));
 
 const app = express();
 
 const productRouter = require('./product');
-const userRouter = require('./user');
-const authRouter = require('./auth');
 
 const PRODUCTS_API_ENDPOINT = '/products';
-const USERS_API_ENDPOINT = '/users';
 
 const DB_API_ENDPOINT = 'mongodb://localhost:27017/microcosm';
 
@@ -40,13 +32,12 @@ if (process.env.NODE_ENV === 'development') {
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use('/auth', authRouter);
-app.use(USERS_API_ENDPOINT, userRouter);
+
 app.use(PRODUCTS_API_ENDPOINT, productRouter);
 app.use(catchErr);
 
 app.get('/', async (req, res) => {
-  res.end('Welcome to Micro #3')
+  res.end('Welcome to Products API')
 });
 
 app.get('/test', async (req, res) => {
