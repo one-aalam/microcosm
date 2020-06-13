@@ -26,6 +26,12 @@ The project has 3 packages (inside packages directory)
 - [Jest](https://jestjs.io) - Jest is a delightful JavaScript Testing Framework with a focus on simplicity
 - [Supertest](https://github.com/visionmedia/supertest) - High-level abstraction for testing HTTP, while still allowing you to drop down to the lower-level API provided by it
 
+## Design Principles
+The list of community contributed modules used in the micros is kept at minimum. I tried to keep it that way to show the power of the approach and, of course, the language itself.
+
+## Data/Domain Models
+Search/Discover, Order, Delivery, Payment/Checkout, Restautaurant
+
 ## Install
 Checkout the repo and run
 ```sh
