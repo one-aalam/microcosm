@@ -7,6 +7,7 @@ module.exports = {
     },
 
     User: {
+        name: (user) => `${user.name.first} ${user.name.last}`,
         token: () => '__RETRACTED__'
     }
 }

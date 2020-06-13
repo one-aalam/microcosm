@@ -20,7 +20,8 @@ module.exports = gql`
 
   type User {
     id: ID!
-    name: UserName!
+    # name: UserName!
+    name: String
     email: String!
     activated: Boolean
     roles: [ UserRole ]!
