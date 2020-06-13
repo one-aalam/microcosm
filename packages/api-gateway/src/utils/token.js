@@ -5,4 +5,4 @@ const SECRET = nconf.get('secret') || 'barelysecure';
 
 
 exports.decode = token => verify(token, SECRET);
-exports.encode = payload => sign(payload, SECRET, { expiresIn: '1day' });
+exports.encode = payload => sign(payload, SECRET, { expiresIn: '7day' });

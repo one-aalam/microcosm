@@ -13,10 +13,10 @@ module.exports = {
         getOrders: async (parent, args, context, info) => await orderController.all(args),
         getOrder: async (parent, args, context, info) => await orderController.one(args),
 
-        getMe: async (parent, args, { _auth }, info) => {
+        getMe: async (parent, args, { me }, info) => {
             return {
-                id: _auth.id,
-                email: _auth.email
+                _id: me.id,
+                email: me.email
             };
         }
     },
@@ -34,7 +34,7 @@ module.exports = {
         removeProduct: async (parent, args, context, info) => await productController.remove(args),
 
         /* Order */
-        createOrder: async (parent, args, context, info) => await orderController.create(args.data),
+        createOrder: async (parent, args, { me }, info) => await orderController.create(args.data, { me }),
         removeOrder: async (parent, args, context, info) => await orderController.remove(args),
 
     },

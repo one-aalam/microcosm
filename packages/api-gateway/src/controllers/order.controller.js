@@ -18,15 +18,17 @@ exports.all = asyncRun(async (args) => {
     return data;
 });
 
-exports.create = asyncRun(async (args) => {
+exports.create = asyncRun(async (args, { me }) => {
     const { customer, totalOrderValue, address, prodcuts } = args;
+
+    const _customer = me || customer;
     const productMap = {};
     prodcuts.forEach((product) => {
         productMap[product._id] = product;
     });
     const productIds = Object.keys(productMap);
 
-    const { name, email } = await userController.one({ id: customer._id })
+    const { name, email } = await userController.one({ id: _customer.id })
     const productsApplicable = await productController.all({ query: {
         ids: productIds
     }})
@@ -40,13 +42,25 @@ exports.create = asyncRun(async (args) => {
     });
 
     const payload = {
-        products: productsToPersist,
+        // Products: Have better control of the structure sent to the Order API
+        products: productsApplicable.map(({ _id, name, price}) => {
+            return {
+                _id,
+                name,
+                price,
+                qty: productMap[_id].qty
+            }
+        }),
+        // Customer: Retrieve it from user token
         customer: {
             _id: customer._id,
             name: `${name.last}, ${name.first}`,
             email
         }, // @TODO: Get this from user token { _id: '5edcf11e55cafd23f9f8cfda', email: 'one@mail.com' }
-        totalOrderValue, // @TODO: Re-compute before passing
+        // Total Order Value: Although we can save some work by requesting client to send
+        // the `prices` and `totalOrderValue` we shouldn't blindly trust it and must validate and
+        // re-compute total order's worth by relying on the values maintained by persistent store
+        totalOrderValue, // @TODO: Re-compute before passing, and handle in O
         status: "IN_PROGRESS", // @TODO: Get this from config
         paymentMethod: "PAYPAL", // @TODO: Get this from Payment Service
         address

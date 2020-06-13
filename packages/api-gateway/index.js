@@ -1,6 +1,7 @@
 const nconf = require('nconf');
 const { ApolloServer, AuthenticationError } = require('apollo-server-express');
 const app = require('./src/server.js');
+const auth = require('./src/middlewares/auth');
 
 const schema = require('./src/gql/schema');
 const resolvers = require('./src/gql/resolvers');
@@ -14,14 +15,14 @@ const server = new ApolloServer({
     typeDefs: schema,
     resolvers,
     context: async ({ req, res }) => {
-        // try {
-        //     await auth(req);
-        // } catch (err) {
-        //     // @TODO: Remove `stacktrace` from response
-        //     throw new AuthenticationError(err.message)
-        // }
+        try {
+            await auth(req);
+        } catch (err) {
+            // @TODO: Remove `stacktrace` from response
+            throw new AuthenticationError(err.message)
+        }
         return {
-            // _auth: req._auth
+            me: req._auth
         }
     }
 })
