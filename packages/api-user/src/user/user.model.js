@@ -56,9 +56,9 @@ UserSchema.virtual('fullName').
     this.name.last = v.substr(v.indexOf(' ') + 1);
   });
 
-// UserSchema.virtual('id').get(function() {
-//     return this._id.toHexString();
-// })
+UserSchema.virtual('id').get(function() {
+    return this._id.toHexString();
+})
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
