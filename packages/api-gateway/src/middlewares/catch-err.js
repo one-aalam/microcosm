@@ -2,6 +2,7 @@ const error = require('../constants/errors');
 
 
 module.exports = (err, _, res, next) => {
+    console.log(err, _);
     const errToSend = error.response[err.message];
     if(errToSend) {
         res.status(errToSend.code).json({

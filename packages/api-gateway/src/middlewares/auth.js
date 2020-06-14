@@ -1,7 +1,11 @@
 const { decode } = require('../utils/token');
-const asyncRun = require('./async-run');
-module.exports = asyncRun(async (req, _, next) => {
-    const header = req.headers.authorization || ''; // @TODO: req.cookies.token
+
+module.exports = (config) => async (req, _) => {
+    const canSkipAuth = config.skip && config.skip.length ?
+                    config.skip.filter(skip => req.body && req.body.query && req.body.query.indexOf(skip) !== -1).length
+                    : 0;
+    if (!canSkipAuth) {
+      const header = req.headers.authorization || ''; // @TODO: req.cookies.token
       if (!header) {
         throw new Error('TOKEN_MISSING');
       }
@@ -16,9 +20,14 @@ module.exports = asyncRun(async (req, _, next) => {
           } catch(err) {
             throw new Error('TOKEN_INVALID');
           }
-        req._auth = payload;
+        return {
+          user: payload,
+          canSkip
+        };
       }
-    if (next) {
-      next();
     }
-});
+    return {
+      user: undefined,
+      canSkipAuth
+    }
+};

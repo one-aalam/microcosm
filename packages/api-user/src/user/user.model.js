@@ -61,14 +61,11 @@ UserSchema.virtual('id').get(function(){
 });
 
 UserSchema.set('toJSON', {
-    virtuals: true
-});
-
-UserSchema.set('toJSON', {
     transform: function(doc, ret, options) {
         const { password, token, ...rest } = ret;
-        return ret;
-    }
+        return rest;
+    },
+    virtuals: true
 });
 
 UserSchema.pre('save', async function (next) {

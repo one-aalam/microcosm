@@ -58,6 +58,5 @@ module.exports = gql`
     email: String!
     activated: Boolean
     roles: [ UserRole ]!
-    token: String
   }
 `;

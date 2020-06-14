@@ -13,8 +13,8 @@ module.exports = {
     },
     Mutation: {
         /* Auth */
-        signUp: async (parent, { data: { name, email, password }}, { me, controllers: { userController }}, info) => await userController.signup({ name, email, password }),
-        signIn: async (parent, { data: { email, password }}, { me, controllers: { userController }}, info) => await userController.signin({ email, password }),
+        signUp: async (parent, { data: { name, email, password }}, { controllers: { userController }}, info) => await userController.signup({ name, email, password }),
+        signIn: async (parent, { data: { email, password }}, { controllers: { userController }}, info) => await userController.signin({ email, password }),
 
         /* User */
         createUser: async (parent, args, { me, controllers: { userController }}, info) => await userController.create(args),
