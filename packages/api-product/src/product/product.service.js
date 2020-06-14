@@ -3,7 +3,7 @@ const Product = require('./product.model');
 class ProductService {
     all(query) {
         let _query = {}
-        const { ids } = JSON.parse(query.query);
+        const { ids } = query && query.query ? JSON.parse(query.query) : {};
         if (ids) {
             _query = {
                 '_id': {

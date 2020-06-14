@@ -5,6 +5,7 @@ const auth = require('./src/middlewares/auth');
 
 const schema = require('./src/gql/schema');
 const resolvers = require('./src/gql/resolvers');
+const controllers = require('./src/controllers');
 
 nconf.argv()
    .env('__')
@@ -22,7 +23,8 @@ const server = new ApolloServer({
             throw new AuthenticationError(err.message)
         }
         return {
-            me: req._auth
+            me: req._auth,
+            controllers
         }
     }
 })
