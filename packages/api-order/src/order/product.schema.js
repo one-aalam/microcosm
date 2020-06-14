@@ -1,5 +1,5 @@
 const ProductSubSchema = {
-    _id: {
+    id: {
         type: String,
         required:true
     },

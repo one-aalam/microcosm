@@ -13,5 +13,13 @@ const ProductSchema = new mongoose.Schema({
     updated_at    :{ type: Date, default: Date.now }
 }, { versionKey: false }, {strict: false});
 
+ProductSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+
+ProductSchema.set('toJSON', {
+    virtuals: true
+});
+
 
 module.exports = mongoose.model('Product', ProductSchema);

@@ -8,8 +8,5 @@ module.exports = {
         /* Order */
         createOrder: async (parent, args, { me, controllers: { orderController }}, info) => await orderController.create(args.data, { me }),
         removeOrder: async (parent, args, { me, controllers: { orderController }}, info) => await orderController.remove(args),
-    },
-    Order: {
-        id: order => order._id
     }
 }

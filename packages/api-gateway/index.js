@@ -12,6 +12,8 @@ nconf.argv()
    .defaults({ conf: `${__dirname}/config.yml`})
    .file({ file: nconf.get('conf'), format: require('nconf-yaml')});
 
+
+
 const server = new ApolloServer({
     typeDefs: schema,
     resolvers,
@@ -23,7 +25,7 @@ const server = new ApolloServer({
             throw new AuthenticationError(err.message)
         }
         return {
-            me: req._auth,
+            me: await controllers.userController.one({ id: req._auth.id }),
             controllers
         }
     }

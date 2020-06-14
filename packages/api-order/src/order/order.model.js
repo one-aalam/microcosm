@@ -28,9 +28,13 @@ const OrderSchema = new Schema({
 }, { versionKey: false }, {strict: false});
 
 
-OrderSchema.virtual('id').get(function() {
+OrderSchema.virtual('id').get(function(){
     return this._id.toHexString();
-})
+});
+
+OrderSchema.set('toJSON', {
+    virtuals: true
+});
 
 
 module.exports = model('Order', OrderSchema);

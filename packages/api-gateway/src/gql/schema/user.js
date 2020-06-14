@@ -53,7 +53,7 @@ module.exports = gql`
 
   type User {
     id: ID!
-    # name: UserName!
+    fullName: String
     name: UserName
     email: String!
     activated: Boolean

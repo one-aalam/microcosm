@@ -3,7 +3,6 @@ const nconf = require('nconf');
 const asyncRun = require('../middlewares/async-run');
 
 const productController = require('./product.controller');
-const userController = require('./user.controller');
 
 const instance = axios.create({
     baseURL: nconf.get('API_ORDER_SERVICE') || 'http://localhost:3003'
@@ -19,41 +18,30 @@ exports.all = asyncRun(async (args) => {
 });
 
 exports.create = asyncRun(async (args, { me }) => {
-    const { customer, totalOrderValue, address, prodcuts } = args;
-
-    const _customer = me || customer;
+    const { totalOrderValue, address, prodcuts } = args;
+    const { _id, name, email } = me;
     const productMap = {};
     prodcuts.forEach((product) => {
-        productMap[product._id] = product;
+        productMap[product.id] = product;
     });
     const productIds = Object.keys(productMap);
-
-    const { name, email } = await userController.one({ id: _customer.id })
     const productsApplicable = await productController.all({ query: {
         ids: productIds
     }})
-    const productsToPersist = productsApplicable.map(({ _id, name, price}) => {
-        return {
-            _id,
-            name,
-            price,
-            qty: productMap[_id].qty
-        }
-    });
-
+    console.log(me)
     const payload = {
         // Products: Have better control of the structure sent to the Order API
-        products: productsApplicable.map(({ _id, name, price}) => {
+        products: productsApplicable.map(({ id, name, price}) => {
             return {
-                _id,
+                id,
                 name,
                 price,
-                qty: productMap[_id].qty
+                qty: productMap[id].qty
             }
         }),
         // Customer: Retrieve it from user token
         customer: {
-            _id: customer._id,
+            id: _id,
             name: `${name.last}, ${name.first}`,
             email
         }, // @TODO: Get this from user token { _id: '5edcf11e55cafd23f9f8cfda', email: 'one@mail.com' }
@@ -63,8 +51,10 @@ exports.create = asyncRun(async (args, { me }) => {
         totalOrderValue, // @TODO: Re-compute before passing, and handle in O
         status: "IN_PROGRESS", // @TODO: Get this from config
         paymentMethod: "PAYPAL", // @TODO: Get this from Payment Service
-        address
+        addresses: [address]
     }
+
+    console.log('--- CREATING ORDERS WITH ---', payload)
     const { data } = await instance.post('/orders', payload);
     return data
 });

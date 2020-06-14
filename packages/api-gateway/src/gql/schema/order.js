@@ -14,16 +14,16 @@ module.exports = gql`
 
   type Order {
     id: ID!
-    user: OrderUser
+    customer: OrderUser
     totalOrderValue: Float!
     status: String!
-    address: OrderAddress
+    addresses: [OrderAddress]
     paymentMethod: String
-    prodcuts: [ OrderProduct ]
+    products: [ OrderProduct ]
   }
 
   type OrderProduct {
-    id: ID!
+    id: String
     name: String!
     category: [ String ]
     price: Float!
@@ -31,7 +31,7 @@ module.exports = gql`
   }
 
   type OrderUser {
-    id: ID!
+    id: String
     email: String!
   }
 
@@ -43,19 +43,19 @@ module.exports = gql`
   }
 
   input OrderCreateInput {
-    customer: OrderUserInput!
+    # customer: OrderUserInput! - Retrieved from user token
     totalOrderValue: Float!
     address: OrderAddressInput
     prodcuts: [ OrderProductInput ]
   }
 
   input OrderProductInput {
-    _id: String
+    id: ID!
     qty: Int!
   }
 
   input OrderUserInput {
-    _id: ID!
+    id: ID!
   }
 
   input OrderAddressInput {

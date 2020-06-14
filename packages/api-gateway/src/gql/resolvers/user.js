@@ -19,10 +19,5 @@ module.exports = {
         /* User */
         createUser: async (parent, args, { me, controllers: { userController }}, info) => await userController.create(args),
         removeUser: async (parent, args, { me, controllers: { userController }}, info) => await userController.remove(args),
-    },
-    User: {
-        id: user => user._id,
-        name: (user) => `${user.name.first} ${user.name.last}`,
-        token: () => '__RETRACTED__'
     }
 }

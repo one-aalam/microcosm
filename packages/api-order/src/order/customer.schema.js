@@ -1,5 +1,5 @@
 const CustomerSubSchema = {
-    _id: {
+    id: {
         type: String,
         required:true
     },
